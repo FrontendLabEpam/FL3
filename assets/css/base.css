@@ -235,3 +235,9 @@ img {
     width: 50%;
     margin: 0 auto;
 }
+
+.remark-inline-code{
+    font-size: 18px;
+    color: #333;
+    background: #f8f8f8;
+}
