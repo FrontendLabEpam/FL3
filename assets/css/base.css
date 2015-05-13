@@ -2,7 +2,7 @@
 @import url(droid-serif.css);
 @import url(ubuntu-mono.css);
 
-body { 
+body {
     font-family: 'Droid Serif';
     font-size: 14px;
     line-height: 1.3;
@@ -43,7 +43,7 @@ header {
 /* First page title */
 
 .title {
-    margin-top: -5em; 
+    margin-top: -5em;
     }
     .title p {
         color: #999;
@@ -64,8 +64,8 @@ header {
     padding: 20px 30px 30px;
 }
 
-.remark-code, .remark-inline-code { 
-    font-family: 'Ubuntu Mono'; 
+.remark-code, .remark-inline-code {
+    font-family: 'Ubuntu Mono';
     overflow: auto;
 }
 
@@ -76,7 +76,7 @@ header {
     .columns[.col-50[
         ... Left column content ...
     ].col-50.demo[
-        ... Right column content. Demo ... 
+        ... Right column content. Demo ...
     ]]
 
 =============================== */
@@ -185,7 +185,7 @@ a {
 }
 
 .main-index > ol > li {
-    margin-bottom: 0px;    
+    margin-bottom: 0px;
 }
 .main-index + .remark-slide-number {
     display: none;
@@ -240,4 +240,8 @@ img {
     font-size: 18px;
     color: #333;
     background: #f8f8f8;
+}
+
+.remark-slides-area {
+    height: calc(100% - 41px); /* 41 - header */
 }
