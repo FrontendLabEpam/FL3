@@ -191,10 +191,6 @@ a {
     display: none;
 }
 
-.remark-slide-number {
-    bottom: 30px;
-}
-
 .scriptCode {
     font-family: 'Ubuntu Mono';
     font-weight: bold;
@@ -244,4 +240,7 @@ img {
 
 .remark-slides-area {
     height: calc(100% - 41px); /* 41 - header */
+}
+.hljs-github .hljs-comment {
+  font-style: normal
 }
