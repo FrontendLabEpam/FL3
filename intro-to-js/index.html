@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Introduction to JS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link type="text/css" rel="stylesheet" href="../assets/css/base.css" />
+    <link type="text/css" rel="stylesheet" href="../assets/css/shCore.css" />
+    <link type="text/css" rel="stylesheet" href="../assets/css/shThemeDefault.css" />
+    <script type="text/javascript" src="../assets/js/lib/shCore.js"></script>
+    <script type="text/javascript" src="../assets/js/lib/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../assets/js/lib/shAutoloader.js"></script>
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+    </script>
+</head>
+<body>
+
+    <header>
+
+        <img class="epam-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAUCAYAAAAa2LrXAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0QjQwQjM1QzI4NzQxMUU0QjAzOUUxRTYzMjc2NDcxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0QjQwQjM1RDI4NzQxMUU0QjAzOUUxRTYzMjc2NDcxRiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkY2Q0Q3M0Y1Mjg3MjExRTRCMDM5RTFFNjMyNzY0NzFGIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY2Q0Q3M0Y2Mjg3MjExRTRCMDM5RTFFNjMyNzY0NzFGIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+ZE2tUQAABZRJREFUeNrcmHlsVFUUxl/3RaQtbaHalqUREAWNGq2IC/iHgAsKuEVj0SoxLjFqIm4RATXBfwSNGKOCEbRRKGICRAxRqixSggKmTaEtUEULlFq6TKUM0xm/q99Lbr7cmQKtJHKSX9o577zlnnu297xIJOL1ISPAYlAH2kEXaAQrwRjaTAC7QBX4EswHtSAE6sFrIMu65lhQBg6AYyAA9oAFIJ82M3jPSvATWAFW0dZcdykYBeaCw5F/ZTeY1Ns199Zh14BZII0P2BaJLs0gFzwa6VnKef3be7D7kXaLIqcnLaAQ3AkeAYmn6oN479RlJHgRbAObwZMgDF4B/S27crDd+p0NJoF0ud5GsEx0OSAFzLZ0XbRrtHTF4EqQLOd/DypEdxR8B/6ydGk8927wIajh2i44aW+cpKdHghfAFhCUXdxEm72WrgOkMzptuR+8JbrLwTDRfQWKeB1fVvA+FZauG4wD38j5yaBUdLNBAjhk6f5g9lSI7XGwDkwFKbF8kxjDt2YXbgXTwLUgLordFlAAci1dLQiB4WLbQltb/gRDRHeAkdpPoso8wzCxa5JrHgdBkCfX/J3RNsjSHQHHHGszdhPJQbAELAe/6OI1hQvBU+AHhvMCcJ3jBlXgVXAFmAVGgXOt47vBCXFgBxd2vp0AIMD7qgPHiG4XyASDLd1BOjrH0tVba7GlUZxvpI1/bwZTwGo+ty3ngZfBDrABPGhvrInAgeAOMB1MAElRIm0/WAtWMhoi4nhPomCIPHCz9UB2VAS5ARqpVdzA/XTQZWCe2B3mGrLFUUniaN/ZmhF7+beTzlvNtZSAu8ClEmzjyZvgc/CxyeOXHN0pzPZvasR7HD2SY9SCOXJ+gLUmbOnMiHE1j/mymXWpTM6fbl37QrCEI5HK+3w2WxaxrlVbOjNSFYBnxXZujDXFs74u5FqCjvtvj3eksce6MBPkg8cZusEY9TJDfp/DWhMnKZzJY76Y+tUtaW1+N/D/d1lKHmJXVtkDhjrS32Nm+dLKaC0S26YYawpzynia9fRth01CoqSiL+Zhn2FqLZdxxCW6iM9Ys3J5feO0pWC02P3GvxfJYneCheAJSz+HDiixdHUcY2zZxyaQI+XD1LaLxbauh3WZTbgN3ALGRnPgt+y0Jt8T/AMs4obnQCVnsHLupC2JstvdrBGD2b0CnA8rZU60I2CAo4HcZ+mqweuMSE+cPUh0zTIR+Hae1Eq/C6uYZjiZTpsqzdGTRvmOWfxWdlMTbfeCGY6xopi8QYcvBuu5qwNkjGgHh9iUBlrOTXcstpbRlyDOyhcn1HNjiqXMdElT8njvS0RXzXKSJR34KP83TecmcA+H/dwoTjOl5VOwilkStutfDUeTIqulBx21bhq78T52pDRxTBN3drQj2rId9arQkdapUSLVtg3wrSJPNq/VEQANrLMZcu8Ay4Q5vgY84HCeybgPOKGM4BvXz6yRzkE6bLX0fI44M6Wle4y6CRxFUiQykh31pk2aRZjD9lWOFNSo6uD9+olT0sWpLTx/qKPZFEg61vB686SE+M9qHFoGNnFjevUqZyjmOHHEauOlPNZp6UKOkWMNv5w0iN58XTkhusmODw5BxxixDNwguq18ng2iN6PQFNGZV8o867dZw1p+2cn4Lz4mmCZQyjAu4WuNn+LP251JInInx5CQpFY37ewsMPX4a55jSxJrWEQGY33+dis7tDMXOmplf6bjY3x1NY3jE+sNpUeJ++ebVt/IcDahLC6sk+G/ns4bz3nSF/O1ZD64nqlUzfGnk8fHsXyk0jHrOJpk0vEbWcMmspmk0vHb+BaRySYXYuE3NflGNo4Mzng7uIGh0110XzqwJ3kYfGT9/oIO/19L/Bm8l74F/OqdBZJ4Bu/VyXmulV2v8mxw4N8CDADXFYNPYlfknAAAAABJRU5ErkJggg=="/>
+
+        <h1>Introduction to JS</h1>
+
+    </header>
+
+<!-- ================== Slides ================== -->
+    <textarea id="source">
+
+
+class: center, middle
+
+.title[
+Front-end training
+# Introduction to JS
+]
+
+
+
+---
+
+![Alt text](../assets/img/JavaNotJS.jpg)
+
+---
+
+
+
+# What is JavaScript?
+
+***JavaScript*** (JS) is a dynamic computer programming language. It is most commonly used as part of
+web browsers, whose implementations allow client-side scripts to interact with the user, control the
+browser, communicate asynchronously, and alter the document content that is displayed.
+
+Javascript also being used in server-side programming, game development and the creation of
+desktop and mobile applications.
+
+
+  
+---
+
+
+
+# What is ECMAScript
+
+***ECMAScript*** is a subset of Javascript. Javascript is basically ECMAScript at it's core but builds
+upon it.
+
+Languages such as ActionScript, JavaScript, JScript all use ECMAScript as its core.
+As a comparison, AS/JS/JScript are 3 different cars, but they all use the same engine.
+
+The history is, Brendan Eich created Mocha which became LiveScript, and later JavaScript. Netscape
+presented Javascript to Ecma, which makes standards and it was renamed to ECMA-262 aka
+ECMAScript.
+
+
+---
+
+
+
+# JavaScript possibilities
+
+- Visual effects (animation)
+- Simple calculations
+- User data validation
+- User data manipulation
+- Data storage (cookies/LocalStorage)
+- Dynamicaly change page structure (DHTML)
+- Get data from server (AJAX)
+
+
+---
+
+
+
+# Browsers
+
+
+![Alt text](../assets/img/browsers1.jpg)
+
+
+---
+
+
+
+# Web browser engines
+
+- ***WebKit*** (Apple, KDE, Nokia,Google, RIM, Palm,Samsung,)<br/>
+Chrome (28)<br/>
+Safari
+
+- ***Trident*** (Microsoft)<br/>
+Internet Explorer
+
+- ***Gecko*** (Mozilla Foundation)<br/>
+Firefox
+
+- ***Blink*** (Google, Opera Software)<br/>
+Chrome 28+<br/>
+Opera
+
+
+---
+
+
+
+# JS file and JS block
+
+- JavaScript block
+
+``` html
+<script>
+    alert(“Hello world!”);
+</script>
+
+```
+- JavaScript file
+
+``` html
+<script src=”script.js”></script>
+
+```
+
+
+
+---
+
+
+
+# JS file and JS block
+
+HTML markup example:
+
+``` html
+<!Doctype html>
+<html>
+<head>
+    <title>JS</title>
+    <script src=”script2.js”></script>
+</head>
+<body>
+    <script>
+        alert(“Hello world!”)
+    </script>
+    <script src=”script2.js”></script>
+</body>
+</html>
+
+```
+
+---
+
+
+# Expressions and statements
+
+A fragment of code that produces a value is called an expression. If an expression corresponds to a
+sentence fragment, a statement, in JavaScript, corresponds to a full sentence in a human language. A
+program is simply a list of statements.
+
+<pre class="brush: jscript">
+// expression
+2-1
+true
+
+// statement
+var a = 5 + 8;
+!false;
+</pre>
+
+
+
+---
+
+
+# JS output
+
+For JavaScript values output you can use “console.log” or “alert” function.
+
+<pre class="brush: jscript">
+console.log(123);
+console.log(123, 456);
+var x = 30;
+console.log("the value of x is", x);
+
+alert(123);
+alert("the value of x is");
+</pre>
+
+
+
+---
+
+
+# Variables
+
+To catch and hold values, JavaScript provides a thing called a variable. A variable always has a name,
+and it can point at a value, holding on to it.
+
+<pre class="brush: jscript">
+var a;
+
+var c, b, myVariable;
+
+var _x = 10, $z = 20, myVariable = 30;
+
+var myVariable1 = 10,
+    myVariable2 = 20,
+    myVariable3 = 30;
+
+// myvariable2 != myVariable2
+</pre>
+
+
+---
+
+
+# Keywords and reserved words
+
+Names that have a special meaning, such as var, while, and for may not be used as variable
+names. These are called keywords. There are also a number of words which are 'reserved for use' in
+future versions of JavaScript.
+
+<pre class="brush: jscript">
+break case catch continue debugger default delete
+do else false finally for function if implements
+in instanceof interface let new null package private
+protected public return static switch throw true
+try typeof var void while with yield this
+</pre>
+
+
+---
+# Primitive data types
+
+- Boolean
+- String
+- Number
+- Underfined
+- Null
+
+<pre class="brush: jscript">
+var a; //undefined
+var b = null; //null
+var c = true; //boolean
+var d = 'test'; //string
+var e = 10; //number
+
+//typeof bug:
+alert(typeof null); // "object"
+</pre>
+
+
+---
+# Operators
+
+- Unary (!, +, ...)
+- Binary (=, +, >, <, ...)
+- Ternary:
+
+<pre class="brush: jscript">
+var a = (someVar1 > someVar2) ? 4 : 2;
+</pre>
+
+
+---
+
+# Number
+
+<pre class="brush: jscript">
+console.log(0);
+//0
+console.log(-2);
+//2
+console.log(3.5);
+//3.5
+console.log(.75);
+//.75
+console.log(30000);
+//30000
+console.log(0xaaacc);
+// 699084
+console.log(0472);
+// 314
+console.log(03248);
+// 3248
+console.log(03248);
+// 3248
+console.log(1.2e3);
+//1200
+</pre>
+
+
+---
+
+# Number operators
+
+<pre class="brush: jscript">
+console.log(100 + 4 * 11 / 2 - 1);
+//121
+
+var i = 20;
+console.log(++i);
+//21
+console.log(i);
+//21
+console.log(i++);
+//21
+console.log(i);
+//20
+
+var x = 25;
+x += 20; //(x = x + 20);
+console.log(x);
+//45
+
+console.log(5 / 0);
+//Infinity
+console.log(0 / 0);
+//NaN
+</pre>
+
+
+---
+
+# String
+
+Strings are used to represent text. They are written by enclosing their content in quotes:
+
+<pre class="brush: jscript">
+var a = “First string”;
+var b = ‘Second string’;
+var c = “Some ‘interest’ string”;
+
+var stringLength = “Hello”.length;
+
+var complexString = “Some \”complex \” string”
+</pre>
+
+
+---
+
+# Boolean
+
+Often, you will need a value that simply distinguishes between two possiblities, like “yes” and “no”, or
+“on” and “off”. For this, JavaScript has a boolean type, which has just two values: true and false (which
+are written simply as those words).
+
+<pre class="brush: jscript">
+// Variables with boolean data type
+var a = true;
+var b = false;
+
+// Boolean operators
+console.log(a && b);
+console.log(a || b);
+
+console.log(!a)
+console.log(!b);
+</pre>
+
+
+---
+
+# Comparisons
+
+Way to produce boolean values.
+
+<pre class="brush: jscript">
+console.log(10 > 20);
+//false
+console.log(10 < 20);
+//true
+
+console.log(10 >= 20);
+console.log(10 <= 20);
+
+console.log(10 === 20);
+console.log(10 !== 20);
+
+console.log(10 == “10”)
+//true
+console.log(10 === “10”);
+//false
+</pre>
+
+
+---
+
+# Types conversion
+
+***String conversion:***
+
+<pre class="brush: jscript">
+var a = true + "test"; // "truetest"
+var b = "test" + undefined; // "testundefined"
+var c = 123 + ""; // "123"
+var d = String(55); // "55"
+var e = 123;
+e = e.toString(); // "123"
+</pre>
+
+
+---
+
+# Types conversion
+
+***Numerical conversion:***
+
+<pre class="brush: jscript">
+var a = +"123"; // 123
+var b = Number("123"); // 123
+var c = parseInt("123px", 10); // 123
+var d = "5" * "4"; // ***
+
+</pre>
+
+.demo1[
+<table class="table-demo">   
+    <thead>
+        <tr>
+            <th><em>value</em></th>
+            <th><em>convert to</em></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>undefined</td>
+            <td>NaN</td>
+        </tr>
+        <tr>
+            <td>null</td>
+            <td>0</td>
+        </tr>
+         <tr>
+            <td>true/false</td>
+            <td>1/0</td>
+        </tr>
+         <tr>
+            <td>String</td>
+            <td>convert to string by special rules</td>
+        </tr>
+    </tbody>
+</table>
+]
+
+<style>
+.demo1 {
+    position: relative;
+    box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.2) inset;
+    }
+    .demo1:before { 
+        margin-bottom: 1px;
+        background: #12679b;;
+        position: absolute;
+        bottom: 100%;
+        left: 0px;
+        right: 0px;
+        padding: 3px 5px 2px;
+        font-size: 12px;
+        color: #fff;
+    }
+
+    .table-demo {
+        text-align: left;
+        width: 100%;
+        border: #ccc solid 1px;
+        border-collapse: collapse;
+    }
+    .table-demo th,
+    .table-demo td {
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+    .demo1.table-demo th {
+        font-weight: bold;
+    }
+
+</style>
+
+---
+
+# Types conversion
+
+***Logical conversion:***<br/>
+The transformation to the “true / false” is a boolean context, such as if (obj), while (obj) and the
+application of logical operators.
+
+<pre class="brush: jscript">
+var a = Boolean(1); // true
+var b = Boolean(0); // false
+var c = !!5; // ***
+</pre>
+
+.demo1[
+<table class="table-demo">   
+    <thead>
+        <tr>
+            <th><em>value</em></th>
+            <th><em>convert to</em></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>undefined, null</td>
+            <td>false</td>
+        </tr>
+        <tr>
+            <td>Number</td>
+            <td>all true, 0 - false, NaN - false</td>
+        </tr>
+         <tr>
+            <td>String</td>
+            <td>all true, empty string "" — false</td>
+        </tr>
+         <tr>
+            <td>Object</td>
+            <td>always true</td>
+        </tr>
+    </tbody>
+</table>
+ 
+ 
+ 
+
+]
+
+---
+
+
+
+
+class: center, middle
+
+
+##Thanks
+##The end
+
+
+
+    </textarea>
+<!-- ================== End of Slides ================== -->
+
+    <script src="../assets/js/remark-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">remark.create({highlightStyle: 'github'});</script>
+</body>
+</html>
