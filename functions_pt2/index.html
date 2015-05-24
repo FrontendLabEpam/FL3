@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Functions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../assets/css/base.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header>
+        <img class="epam-logo" src="../assets/img/logo.png"/>
+        <h1>Functions 102</h1>
+    </header>
+
+<!-- ================== Slides ================== -->
+    <textarea id="source">
+
+
+class: center, middle
+
+.title[
+Front-end training
+# JS Functions (cont.)
+]
+
+---
+
+# Function properties
+
+Functions have builtin properties:
+
+`.length` shows how many arguments function awaits to get.
+
+`(function(a, b){}).length // -> 2`
+
+`.name` show function name, if there is one (remember that function can be anonymous)
+
+Also you may add your own properties to function and use them later:
+
+```
+function runIfPropertySet() {
+  if (runIfPropertySet.shouldRun) {
+    console.log('run');
+  }
+}
+runIfPropertySet.shouldRun = true;
+runIfPropertySet(); // -> 'run'
+runIfPropertySet.shouldRun = false;
+runIfPropertySet(); // -> nothing
+
+```
+
+---
+
+# 'this' keyword
+
+In javascript `this` indicate current context in which function is called.
+
+```
+function showThis() {
+  console.log(this);
+}
+```
+
+There can be total 4 contexts:
+
+- object, if you call function as method:
+```
+var obj = {
+  fn: showThis
+};
+obj.fn(); // -> Object { fn: function }
+```
+
+- `window` if you call function: `showThis(); // -> window`
+
+- DOM element, if you call function as event listener
+```
+document.body.onclick = showThis;
+// ... -> &lt;body...
+```
+
+- new object, if function used as constructor: `new showThis; // -> showThis {}`
+
+---
+
+# More on calling functions
+
+There are 2 methods which allows you to change context:
+
+```
+Function.call(context/*, comma-separated list of arguments */);
+
+Function.apply(context/*, list of arguments as array */);
+```
+
+```
+var obj1 = {
+  value: 'obj1',
+  showValue: function(arg, arg2) {
+    console.log(this.value, arg + arg2);
+  }
+};
+
+var obj2 = {
+  value: 'obj2'
+};
+
+obj1.showValue(1, 2); // -> obj1 3
+obj1.showValue.call(obj2, 1, 2); // -> obj2 3
+obj1.showValue.apply(obj2, [1, 2]); // -> obj2 3
+```
+
+If you pass `null` as context - your context will became `window`.
+
+---
+
+# Recursion
+
+A recursive function is a function which call itself.
+
+For example, function that find n-th element of fibonacci numbers:
+
+```
+function fib(n) {
+  function fibIter(a, b, i) {
+    if (i > n) {
+      return b;
+    }
+    return fibIter(b, a + b, i + 1);
+  }
+  return fibIter(1, 1, 2);
+}
+
+fib(20);
+```
+
+---
+
+# Recusion (cont.)
+
+But, fibonacci numbers is not what you need to do every day.
+
+Better example - function that build DOM according to given structure:
+
+```
+function createEl(domObj) {
+  var el = document.createElement(domObj.tag);
+  if (domObj.childs) {
+    for (var i = 0; i < domObj.childs.length; i++) {
+      el.appendChild(createEl(domObj.childs[i]));
+    }
+  }
+  return el;
+}
+
+createEl({
+  tag: 'div',
+  childs: [
+    { tag: 'span' },
+    { tag: 'ul', childs: [{ tag: 'li' }] }
+  ]
+});
+```
+
+---
+
+# Callback functions
+
+A common JS practice is to pass some callback-function if result don&apos;t appear immidiately (think about calling to server...):
+
+```
+function executeLoop(fn, ms) {
+  if (fn) {
+    executeAfter.fns.push(fn);
+  } else {
+    setTimeout(function() {
+      for (var i = 0; i < executeLoop.fns.length; i++) {
+        executeLoop.fns[i]();
+      }
+      executeLoop(null, ms);
+    }, ms);
+  }
+}
+executeLoop.fns = [];
+
+// add some functions to execute
+executeLoop(function() {});
+executeLoop(function() {});
+executeLoop(function() {});
+
+// and start loop with 10 ms
+executeLoop(null, 10);
+```
+
+---
+
+# Closures
+
+Closures are functions that refers to variables from outer scopes.
+
+Scopes can be nested, but if there are no closures - scope exists only to the end
+of function.
+
+```
+function bind(fn, thisp) {
+  return function() {
+    return fn.apply(thisp, arguments);
+  };
+}
+
+var alwaysSameContext = bind(function() {
+  console.log(this.value);
+}, { value: 'custom-object' });
+
+alwaysSameContext(); // -> 'custom-object'
+alwaysSameContext.call({ value: 'other-object' }); // -> 'custom-object'
+alwaysSameContext.call(null); // -> 'custom-object'
+```
+---
+
+# Memoisation
+
+Memoisation -- is storing values between function calls.
+
+For example, if you need to run function only once - you need memoize it prevoius call:
+
+```
+function runOnce(fn) {
+  var value, shouldRun = true;
+  return function() {
+    if (shouldRun) {
+      shouldRun = false;
+      value = fn.apply(null, arguments);
+    }
+    return value;
+  };
+}
+
+var initView = runOnce(function(parent) {
+  // create some elements, and append them into parent
+});
+
+// Somewhere after hash changed...
+// no matter how many times hash was changed - DOM created only once
+initView(document.getElementById('main-view'));
+```
+
+---
+
+# And some more array methods
+
+`[].forEach(fn)` execute function on each element of array. Arguments passed: (element, index, array)
+
+`[].map(fn)` execute function on each element of array and return array with results of fucntion calling on each element. Arguments passed: (element, index, array), return: new element
+
+`[].filter(fn)` filter array by given fn. Arguments passed: element; return: is element match or not
+
+`[].every(fn)` indicate is every element matches to condition (which is function return result)
+
+`[].some(fn)` indicate does _any_ of element match to condition
+
+`[].reduce(fn, startValue)` "reduces" array to single-value. Arguments passed: (accumulatedValue, element)
+
+---
+
+# Examples
+
+```
+var intArray = [1, 2, 3, 4, 5, 6, 7, 8];
+intArray.forEach(function(el) {
+  console.log(el * el);
+}); // -> 1, 4, 9, 16, 25, 36, 49, 64
+
+intArray.map(function(el) {
+  return el * el;
+});
+sqEls; // -> [1, 4, 9, 16, 25, 36, 49, 64]
+
+intArray.reduce(function(acc, el) {
+  return acc + el;
+}, 0); // -> 36
+
+```
+
+---
+
+# Examples (cont.)
+
+```
+intArray.filter(function(el) {
+  return el % 2 == 0;
+}); // [2, 4, 6, 8];
+
+intArray.every(function(el) {
+  return el % 2 == 0;
+}); // false
+
+intArray.every(function(el) {
+  return el > 0;
+}); // true
+
+intArray.some(function(el) {
+  return el % 2 == 0;
+}); // -> true
+
+intArray.some(function(el) {
+  return el < 0;
+}); // false
+```
+    </textarea>
+<!-- ================== End of Slides ================== -->
+
+    <script src="../assets/js/remark-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">remark.create({highlightStyle: 'github'});</script>
+</body>
+</html>

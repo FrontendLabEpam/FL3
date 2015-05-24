@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Functions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../assets/css/base.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header>
+        <img class="epam-logo" src="../assets/img/logo.png"/>
+        <h1>Functions 101</h1>
+    </header>
+
+<!-- ================== Slides ================== -->
+    <textarea id="source">
+
+
+class: center, middle
+
+.title[
+Front-end training
+# Functions Basics
+]
+
+
+
+---
+
+
+
+# Introduction
+
+Function is a "subprogram" that can be *called* by code external (or internal in the case of recursion) to the function.
+Like the program itself, a function is composed of a sequence of statements called the *function body*.
+Values can be *passed* to a function, and the function can *return* a value.
+
+© MDN
+
+---
+
+# Declare function
+
+Function declaration:
+```
+function myVeryUsefulFunction() {
+  // function body
+  console.log('meow');
+}
+```
+
+Function expression:
+```
+var myVeryUsefulFunction = function() {
+  // function body
+  console.log('meow');
+};
+
+```
+
+`myVeryUsefulFunction` is a _name_ of a function, which is used to invoke it:
+
+```
+myVeryUsefulFunction(); // -> meow
+```
+
+---
+
+# Function arguments
+
+Values may be passed to functions:
+
+```
+function add(one, two) {
+  console.log(one + two);
+}
+
+add(1, 2); // -> 3
+```
+
+In javascript function arguments are non-strict:
+
+```
+// Incorrect behaviour for `add'
+add(1, 2, 3, 4, 5, 6, 7); // -> 3
+add(); // -> NaN
+```
+
+Note: If you don't pass explicit value, then value of named argument became `undefined`:
+```
+function showArg(arg) {
+  console.log(arg);
+}
+showArg(1); // -> 1
+showArg(); // -> undefined
+```
+
+---
+
+# Function arguments (cont.)
+
+You may access to all values with `arguments` array-like object:
+
+```
+// Correct version of `add'
+function add() { // no named arguments
+  // check how many values was passed
+  if (arguments.length == 0) {
+    console.log(0);
+  } else {
+    var sum = 0;
+    for (var i = 0; i < arguments.length; i++) {
+      sum += arguments[i];
+    }
+    console.log(sum);
+  }
+}
+add(); // -> 0
+add(1, 2, 3, 4, 5); // -> 15
+```
+
+---
+
+# Returning a value
+
+Functions may return values using `return` keyword.
+
+```
+function greet(name) {
+  return 'Hello, ' + name + '!';
+}
+
+console.log(greet('JS')); // 'Hello, JS!'
+```
+
+You may use `return` anywhere in body:
+
+```
+function checkUser(login) {
+  if (login == undefined) {
+    return 'You did not specify a login';
+  } else if (login == 'admin') {
+    return 'It is admin';
+  } else if (login == 'user') {
+    return 'It is user';
+  }
+  return 'User unknown';
+}
+```
+
+---
+
+# Returning a value (cont.)
+
+If you doesn't specify explicit `return`, then JS will use `undefined` as result of function call.
+
+```
+function noReturn() {}
+
+noReturn(); // -> undefined
+```
+
+---
+
+# Functions are values
+
+In JS functions are values, e.g. you may assign function as variable value:
+
+```
+function returnFunction() {
+  return function() {
+    return console.log('meow');
+  }
+}
+
+var meowFunction = returnFunction();
+meowFunction();
+
+```
+---
+
+# Functions are values (cont.)
+
+You may pass function in other function.
+
+```
+function callPassedFunction(fn) {
+  fn();
+}
+
+function sayCalled() {
+  console.log('called');
+}
+
+callPassedFunction(sayCalled); // -> 'called'
+```
+
+---
+# Anonymous function
+
+Function that has no name called _anonymous_ function (sometimes ppl call them _lambda-function_).
+
+```
+function() {
+  console.log('hi');
+}
+```
+
+Often such functions used as values to other functions. E.g.:
+
+```
+callPassedFunction(function() {
+  console.log('anonymous function called');
+}); // -> 'anonymous function called'
+```
+
+Also, you may call anonymous function in place:
+
+```
+(function() {
+  console.log('called');
+})(); // -> 'called'
+```
+
+---
+
+# Scopes
+
+Scope is a block of code where variable can be accessed ("visible").
+
+Unlike Java/C#/C/C++/etc. in javascript scope is defined by function, not by curly brackets ({}).
+
+```
+function test() {
+  // value of x here is 'undefined'
+  while (0) {
+    var x = 1;
+  }
+}
+```
+
+---
+
+# Scopes (cont.)
+
+Sometimes this can lead to "unclear" behaviour.
+
+```
+var x = 1;
+function test() {
+  console.log(x); // -> undefined. Even if x is not defined yet, in terms of instructions
+                  // flow, it is visible in whole function.
+  while (0) {
+    var x = 2;
+  }
+}
+```
+
+This behaviour called _hoisting_. Because of hoisting it is recommended to define variables
+ at the top of function, even if they are not used immediately there (like `i` in for loop).
+
+```
+function some() {
+  var i;
+  ...
+  for (i = 0; ...) {}
+}
+```
+
+---
+
+# Scopes (cont.)
+
+If you define variable without `var` keyword, then variable become _global_ variable.
+
+```
+function createGlobalVariable() {
+  x = 1;
+}
+console.log(x); // -> undefined
+createGlobalVariable();
+console.log(x); // -> 1
+```
+
+It is not recommended to use global variables, since they lead to unclear code and may
+be a source of hard to find errors.
+
+---
+
+# Scopes (cont.)
+
+To avoid variable names intersections usually self-executed anonymous functions used:
+
+```
+(function() {
+  var x = 1;
+  console.log(x);
+})();
+
+(function() {
+  var x = 2;
+  console.log(x);
+})();
+```
+Both variables share same name, but are _different_ variables.
+    </textarea>
+<!-- ================== End of Slides ================== -->
+
+    <script src="../assets/js/remark-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">remark.create({
+      highlightStyle: 'github',
+      highlightLanguage: 'javascript'
+    });</script>
+</body>
+</html>
