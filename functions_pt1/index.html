@@ -35,7 +35,7 @@ Values can be *passed* to a function, and the function can *return* a value.
 
 # Declare function
 
-Function declaration:
+### Function declaration
 ```
 function myVeryUsefulFunction() {
   // function body
@@ -43,7 +43,7 @@ function myVeryUsefulFunction() {
 }
 ```
 
-Function expression:
+### Function expression
 ```
 var myVeryUsefulFunction = function() {
   // function body
@@ -51,141 +51,10 @@ var myVeryUsefulFunction = function() {
 };
 
 ```
-
-`myVeryUsefulFunction` is a _name_ of a function, which can be used to invoke it:
+### Function invocation
 
 ```
 myVeryUsefulFunction(); // -> meow
-```
-
----
-
-# Function arguments
-
-Values may be passed to functions:
-
-```
-function add(one, two) {
-  console.log(one + two);
-}
-
-add(1, 2); // -> 3
-```
-
-In javascript function arguments are non-strict:
-
-```
-// Incorrect behaviour for `add'
-add(1, 2, 3, 4, 5, 6, 7); // -> 3
-add(); // -> NaN
-```
-
-Note: If you don't pass explicit value, then value of named argument becomes `undefined`:
-```
-function showArg(arg) {
-  console.log(arg);
-}
-showArg(1); // -> 1
-showArg(); // -> undefined
-```
-
----
-
-# Function arguments object
-
-You may access all values with `arguments` array-like object:
-
-```
-// Correct version of `add'
-function add() { // no named arguments
-  var sum = 0
-  // check how many values were passed
-  if (arguments.length) {
-    for (var i = 0; i < arguments.length; i++) {
-      sum += arguments[i];
-    }
-  }
-  console.log(sum);
-}
-
-add(); // -> 0
-add(1, 2, 3, 4, 5); // -> 15
-```
-
----
-
-# Returning a value
-
-Functions may return values using `return` keyword.
-
-```
-function greet(name) {
-  return 'Hello, ' + name + '!';
-}
-
-console.log( greet('JS') ); // 'Hello, JS!'
-```
-
-You may use `return` anywhere in body:
-
-```
-function checkUser(login) {
-  if (login == undefined) {
-    return 'You did not specify a login';
-  } else if (login == 'admin') {
-    return 'It is admin';
-  } else if (login == 'user') {
-    return 'It is user';
-  }
-  return 'User unknown';
-}
-```
-
----
-
-# Returning a value (cont.)
-
-If you don't specify `return` explicitly, JS will use `undefined` as a result of function call.
-
-```
-function noReturn() {}
-
-noReturn(); // -> undefined
-```
-
----
-
-# Functions are values
-
-In JS, functions are values, e.g. you can assign function as variable value:
-
-```
-function returnFunction() {
-  return function() {
-    return console.log('meow');
-  }
-}
-
-var meowFunction = returnFunction();
-meowFunction();
-
-```
----
-
-# Functions are values (cont.)
-
-You can pass function in other function.
-
-```
-function callPassedFunction(fn) {
-  fn();
-}
-
-function sayCalled() {
-  console.log('called');
-}
-
-callPassedFunction(sayCalled); // -> 'called'
 ```
 
 ---
@@ -200,7 +69,163 @@ function() {
 }
 ```
 
-Often such functions are used as values to other functions. E.g.:
+---
+# Declaration vs Expression
+
+In fact, function expression is just a creation of a variable setting its 
+value to an unnamed function. Usefull for debugging purposes.
+
+```
+// we can access function's name through special syntax
+var noname = function(){};
+console.log( noname.name ); // -> ""
+
+function hasname(){}
+console.log( hasname.name ); // -> "hasname"
+```
+
+Function declaration can be invoked above declaration itself:
+```
+aboveWeCall(); // -> 'yes we can'
+
+function aboveWeCall(){ console.log('yes we can'); }
+```
+Function expression throws an error in same situation:
+```
+aboveWeCall(); // -> Uncaught TypeError: aboveWeCall is not a function
+
+var aboveWeCall = function(){ console.log('no we can not'); }
+```
+
+---
+# Function arguments
+
+Function can accept values as arguments to be used in their bodies.  
+They behave just like regular variables.
+
+```
+function add(one, two) {
+  console.log(one + two);
+}
+
+add(1, 2); // -> 3
+```
+
+---
+# Function arguments (cont.)
+In JavaScript quantity of function arguments is not strict:
+
+```
+// does not throw error for mismatched number of arguments
+add(1, 2, 3, 4, 5, 6, 7); // -> 3
+add(); // -> NaN
+```
+
+Note: If you don't pass explicit value, then value of named argument becomes `undefined`:
+```
+function showArg(arg) {
+  console.log(arg);
+}
+
+showArg(1); // -> 1
+showArg();  // -> undefined
+```
+
+---
+# Function arguments object
+
+You may access all passed values with `arguments` keyword inside of a function.  
+`arguments` is an array like object holding all of the values passed to the function
+
+```
+function showAllArguments() { // no named arguments
+  console.log(arguments);
+  console.log(arguments.length);
+}
+
+add(); // -> {} // -> 0
+add(1, 2); // -> {'0': 1, '1': 2} // -> 2
+```
+
+---
+# Returning a value
+
+Function returns value with `return` keyword.
+
+```
+function greet(name) {
+  var greetMessage = 'Hello, ' + name + '!';
+  return greetMessage;
+}
+
+console.log( greet('JS') ); // 'Hello, JS!'
+```
+
+You may use `return` anywhere in body,  
+but it will stop execution of a function and jump out of it immediately.
+
+```
+function checkUser(login) {
+  if (login == undefined) {
+    return 'You did not specify a login';
+  } else if (login == 'admin') {
+    return 'It is admin';
+  } else if (login == 'user') {
+    return 'It is user';
+  }
+  return 'User is unknown';
+}
+```
+
+---
+# Returning a value (cont.)
+
+If you don't specify `return` explicitly, JS will use `undefined` as a result of function call.
+
+```
+function noReturn() {}
+
+noReturn(); // -> undefined
+```
+
+---
+# Functions are values
+
+In JavaSscript, functions are values, that is why function expressions exist.
+
+```
+function multiplier(factor) {
+  return function(number) {
+    return number * factor;
+  };
+}
+
+var twice = multiplier(2);
+console.log( twice(5) ); // -> 10
+
+```
+
+---
+# Functions are values (cont.)
+
+You can pass function in other function.
+
+```
+function callPassedFunction(fn) {
+  fn();
+}
+
+function sayCalled() {
+  console.log('called');
+}
+
+callPassedFunction( sayCalled ); // -> 'called'
+```
+
+---
+# Anonymous functions usage
+
+Often anonymous functions are used as values to other functions. E.g.:
 
 ```
 callPassedFunction(function() {
@@ -217,71 +242,53 @@ Also, often, anonymous functions are created to be imediately invoked
 ```
 
 ---
-
 # Scopes
 
-Scope is a block of code where variable can be accessed ("visible").
-
-Unlike in Java/C#/C/C++/etc., javascript scope is defined by function,  
-not by curly brackets ({}).
+Scope is a block of code where variable can be accessed ("is visible").  
+In JavaScript scope is defined by function.
 
 ```
-function test() {
-  // value of x here is 'undefined'
-  while (0) {
+(function outer() {
+  console.log(x) // -> undefined
+  
+  while ( !x ){
     var x = 1;
   }
-}
-```
-
----
-
-# Scopes (cont.)
-
-Sometimes this can lead to "unclear" behaviour.
-
-```
-var x = 1;
-function test() {
-  console.log(x); // -> undefined. Even if x is not defined yet, in terms of instructions
-                  // flow, it is visible in whole function.
-  while (0) {
-    var x = 2;
+  console.log(x); // -> 1
+  
+  inner(); // -> 1
+  
+  function inner() {
+    console.log(x);
+    innerer();
+    
+    function innerer(){
+      var x = 2;
+      console.log(x); // -> 2
+    }
   }
-}
-```
-
-This behaviour is called __hoisting__. Because of hoisting it is recommended to define variables
- at the top of function, even if they are not used immediately there (like `i` in for loop).
-
-```
-function some() {
-  var ii;
-  ...
-  for (ii = 0; ...) {}
-}
+})();
 ```
 
 ---
-
 # Scopes (cont.)
 
-If you define variable without `var` keyword, it becomes _global_.
+If you define variable without `var` keyword, it becomes __global__.
 
 ```
 function createGlobalVariable() {
   x = 1;
 }
+
 console.log(x); // -> undefined
 createGlobalVariable();
 console.log(x); // -> 1
 ```
 
-It is not recommended to use global variables, since they lead to unclear code and may
-be a source of hard to find errors.
+It is not recommended to use global variables.  
+They lead to unclear code and may be a source of hard to find errors.
 
 ---
-
 # Scopes (cont.)
 
 To avoid variable names intersections usually self-executed anonymous functions are used:
@@ -297,7 +304,33 @@ To avoid variable names intersections usually self-executed anonymous functions 
   console.log(x);
 })();
 ```
-Both variables share same name, but are _different_ variables.
+Both variables share same name, but are __different__ variables of different scopes.
+
+---
+# Hoisting
+
+Behind the scenes, the __declaration__ of variable is __hoisted__ to the top.  
+Because of hoisting it is recommended to define variables  
+at the top of function, even if they are not used immediately there.
+
+```
+function countProfit(price) {
+  var profit;
+  
+  if ( price >= 100){
+    profit = 10;
+  }
+  
+  return profit;
+}
+```
+
+---
+# Resources
+
+- http://eloquentjavascript.net/03_functions.html
+- http://code.tutsplus.com/tutorials/javascript-hoisting-explained--net-15092
+- http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
     </textarea>
 <!-- ================== End of Slides ================== -->
 
