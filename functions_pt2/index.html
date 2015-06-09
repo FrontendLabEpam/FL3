@@ -110,7 +110,7 @@ obj1.showValue.call(obj2, 1, 2); // -> obj2 3
 obj1.showValue.apply(obj2, [1, 2]); // -> obj2 3
 ```
 
-If you pass `null` as context - your context will became `window`.
+If you pass `null` as context - your context will become `window`.
 
 ---
 
@@ -145,9 +145,9 @@ Better example - function that build DOM according to given structure:
 ```
 function createEl(domObj) {
   var el = document.createElement(domObj.tag);
-  if (domObj.childs) {
-    for (var i = 0; i < domObj.childs.length; i++) {
-      el.appendChild(createEl(domObj.childs[i]));
+  if (domObj.children) {
+    for (var i = 0; i < domObj.children.length; i++) {
+      el.appendChild(createEl(domObj.children[i]));
     }
   }
   return el;
@@ -155,9 +155,9 @@ function createEl(domObj) {
 
 createEl({
   tag: 'div',
-  childs: [
+  children: [
     { tag: 'span' },
-    { tag: 'ul', childs: [{ tag: 'li' }] }
+    { tag: 'ul', children: [{ tag: 'li' }] }
   ]
 });
 ```
@@ -215,34 +215,6 @@ var alwaysSameContext = bind(function() {
 alwaysSameContext(); // -> 'custom-object'
 alwaysSameContext.call({ value: 'other-object' }); // -> 'custom-object'
 alwaysSameContext.call(null); // -> 'custom-object'
-```
----
-
-# Memoisation
-
-Memoisation -- is storing values between function calls.
-
-For example, if you need to run function only once - you need memoize it prevoius call:
-
-```
-function runOnce(fn) {
-  var value, shouldRun = true;
-  return function() {
-    if (shouldRun) {
-      shouldRun = false;
-      value = fn.apply(null, arguments);
-    }
-    return value;
-  };
-}
-
-var initView = runOnce(function(parent) {
-  // create some elements, and append them into parent
-});
-
-// Somewhere after hash changed...
-// no matter how many times hash was changed - DOM created only once
-initView(document.getElementById('main-view'));
 ```
 
 ---
@@ -307,6 +279,136 @@ intArray.some(function(el) {
   return el < 0;
 }); // false
 ```
+
+---
+
+# Event Loop
+
+Main Parts:
+
+- Call Stack
+- Task Queue
+- Web APIs
+
+---
+
+# Call Stack Demos
+
+http://latentflip.com/loupe/
+
+```
+function multiply(a, b) {
+  return a * b;
+}
+
+function square(n) {
+  return multiply(n, n);
+}
+
+function printSquare(n) {
+  var squared = square(n);
+  console.log(squared);
+}
+
+printSquare(4);
+```
+
+---
+
+# Call Stack Demos
+
+In-browser - visualize error with a stack trace
+
+```
+function foo () {
+  throw new Error('Opps!');
+}
+
+function bar () {
+  foo();
+}
+
+function baz () {
+  bar();
+}
+
+baz();
+```
+
+---
+
+# Call Stack Demos
+
+"Blowing" the stack
+
+```
+function foo () {
+  return foo();
+}
+
+foo();
+```
+
+---
+
+# Web APIs + Callback Queue
+
+Delayed execution
+
+```
+console.log('hi');
+
+setTimeout(function cb() {
+  console.log('there');
+}, 5000);
+
+console.log('bye');
+```
+
+---
+
+# Web APIs + Callback Queue
+
+Non-blocking execution
+
+```
+console.log('hi');
+
+setTimeout(function cb() {
+  console.log('there');
+}, 0);
+
+console.log('bye');
+```
+
+---
+
+# Web APIs + Callback Queue
+
+Delayed + Async execution
+
+```
+$.on('button', 'click', function onClick() {
+    setTimeout(function timer() {
+        console.log('You clicked the button!');    
+    }, 2000);
+});
+
+console.log("Hi!");
+
+setTimeout(function timeout() {
+    console.log("Click the button!");
+}, 5000);
+
+console.log("Later!");
+```
+
+
+---
+
+# References
+
+- Event Loop - https://www.youtube.com/watch?v=8aGhZQkoFbQ
     </textarea>
 <!-- ================== End of Slides ================== -->
 
