@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">  
+</head>
+
+<body ng-app="students" ng-controller="StudentsCtrl">
+  <ul>
+    <li ng-repeat="student in students">
+      {{student.name}}
+    </li>
+  </ul>
+</body>
+
+<script src="http://code.angularjs.org/1.3.1/angular.js"></script>
+<script>
+angular.module('students', [])
+  .controller('StudentsCtrl', function($scope, StudentsService) {
+    $scope.students = StudentsService.getStudents();
+  })
+  .factory('StudentsService', function(){
+    var students_cvs = [
+    [3,"Шкоропад Юрій","lvivgeorge@gmail.com",56,139,9.3,15,0,10,9,10,9,9,10,10,10,10,0,0,7,9,0,9,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0],
+    [5,"Буняк Анастасія","abuniak22@gmail.com",52,113,8.7,13,0,9,9,9,9,6,9,8,10,9,9,0,9,9,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [9,"Кремльовська Альбіна","box4alya@gmail.com",48,147,8.6,17,0,10,9,9,9,7,8,7,9,10,10,10,8,8,0,8,9,8,8,0,0,0,0,0,0,0,0,0,0,0,0],
+    [2,"Терлецька Галина","alex_bonk@ukr.net",46,104,7.4,14,0,9,7,9,7,6,7,8,7,6,0,0,9,7,0,8,8,6,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [10,"Стехнович Тарас","violet.infierno@gmail.com",46,92,7.7,12,0,8,8,7,6,5,10,10,2,10,0,0,8,9,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [1,"Леськів Олег","oleh.leskiv.4@gmail.com",45,86,7.2,12,0,8,8,7,8,4,7,7,5,9,0,0,8,7,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [6,"Чорний Віталій","chornij1@gmail.com",43,106,7.6,14,0,9,6,9,7,5,9,8,8,7,0,0,7,9,0,8,8,6,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [7,"Розумовський Олексій","olexa.razum@gmail.com",43,85,7.7,11,0,8,8,8,7,5,7,0,9,0,7,0,9,9,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [12,"Стадник Ольга","olya.lv22@gmail.com",43,118,8.4,14,0,9,9,10,8,7,9,8,8,9,8,0,8,8,0,8,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [14,"Пилат Андрій","pilatao91@gmail.com",42,86,7.8,11,0,7,9,9,8,5,8,8,6,0,8,10,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [13,"Хлистун Ярослава","id68337466@gmail.com",41,98,8.2,12,0,10,9,9,10,6,9,8,5,7,0,0,8,8,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [18,"Добош Олена","o.o.dobosh@gmail.com",40,104,8.7,12,0,10,8,9,8,8,8,8,10,9,9,0,9,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    ];
+
+    function formData(data){
+      return data.map( function (sData){
+        return {
+          id: sData.shift(),
+          name: sData.shift(),
+          email: sData.shift(),
+          testScore: sData.shift(),
+          sumScore: sData.shift(),
+          aveScore: sData.shift(),
+          homeworksDoneCount: sData.shift(),
+          homeWorksScores: sData.splice(1, sData.length-1) // no intro&outro
+        };
+      });
+    }
+
+    return {
+      getStudents: function(){
+        return formData(students_cvs);
+      }
+    }      
+  })
+</script>
+</html>
