@@ -1,4 +1,4 @@
-Use the file students.html as a basis for this hometask.
+Use the file [students.html](students.html) as a basis for this hometask.
 It contains the list of the students from EPAM Front End Lab with randomly-generated hometask marks.
 
 1. Show list of students and their scores for homework #1
