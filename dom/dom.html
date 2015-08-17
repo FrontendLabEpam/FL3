@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link type="text/css" rel="stylesheet" href="../assets/css/base.css" />
+    <link type="text/css" rel="stylesheet" href="../assets/css/shCore.css" />
+    <link type="text/css" rel="stylesheet" href="../assets/css/shThemeDefault.css" />
+    <script type="text/javascript" src="../assets/js/lib/shCore.js"></script>
+    <script type="text/javascript" src="../assets/js/lib/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../assets/js/lib/shAutoloader.js"></script>
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+    </script>
+</head>
+<body>
+
+    <header>
+
+        <img class="epam-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAUCAYAAAAa2LrXAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0QjQwQjM1QzI4NzQxMUU0QjAzOUUxRTYzMjc2NDcxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0QjQwQjM1RDI4NzQxMUU0QjAzOUUxRTYzMjc2NDcxRiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkY2Q0Q3M0Y1Mjg3MjExRTRCMDM5RTFFNjMyNzY0NzFGIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY2Q0Q3M0Y2Mjg3MjExRTRCMDM5RTFFNjMyNzY0NzFGIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+ZE2tUQAABZRJREFUeNrcmHlsVFUUxl/3RaQtbaHalqUREAWNGq2IC/iHgAsKuEVj0SoxLjFqIm4RATXBfwSNGKOCEbRRKGICRAxRqixSggKmTaEtUEULlFq6TKUM0xm/q99Lbr7cmQKtJHKSX9o577zlnnu297xIJOL1ISPAYlAH2kEXaAQrwRjaTAC7QBX4EswHtSAE6sFrIMu65lhQBg6AYyAA9oAFIJ82M3jPSvATWAFW0dZcdykYBeaCw5F/ZTeY1Ns199Zh14BZII0P2BaJLs0gFzwa6VnKef3be7D7kXaLIqcnLaAQ3AkeAYmn6oN479RlJHgRbAObwZMgDF4B/S27crDd+p0NJoF0ud5GsEx0OSAFzLZ0XbRrtHTF4EqQLOd/DypEdxR8B/6ydGk8927wIajh2i44aW+cpKdHghfAFhCUXdxEm72WrgOkMzptuR+8JbrLwTDRfQWKeB1fVvA+FZauG4wD38j5yaBUdLNBAjhk6f5g9lSI7XGwDkwFKbF8kxjDt2YXbgXTwLUgLordFlAAci1dLQiB4WLbQltb/gRDRHeAkdpPoso8wzCxa5JrHgdBkCfX/J3RNsjSHQHHHGszdhPJQbAELAe/6OI1hQvBU+AHhvMCcJ3jBlXgVXAFmAVGgXOt47vBCXFgBxd2vp0AIMD7qgPHiG4XyASDLd1BOjrH0tVba7GlUZxvpI1/bwZTwGo+ty3ngZfBDrABPGhvrInAgeAOMB1MAElRIm0/WAtWMhoi4nhPomCIPHCz9UB2VAS5ARqpVdzA/XTQZWCe2B3mGrLFUUniaN/ZmhF7+beTzlvNtZSAu8ClEmzjyZvgc/CxyeOXHN0pzPZvasR7HD2SY9SCOXJ+gLUmbOnMiHE1j/mymXWpTM6fbl37QrCEI5HK+3w2WxaxrlVbOjNSFYBnxXZujDXFs74u5FqCjvtvj3eksce6MBPkg8cZusEY9TJDfp/DWhMnKZzJY76Y+tUtaW1+N/D/d1lKHmJXVtkDhjrS32Nm+dLKaC0S26YYawpzynia9fRth01CoqSiL+Zhn2FqLZdxxCW6iM9Ys3J5feO0pWC02P3GvxfJYneCheAJSz+HDiixdHUcY2zZxyaQI+XD1LaLxbauh3WZTbgN3ALGRnPgt+y0Jt8T/AMs4obnQCVnsHLupC2JstvdrBGD2b0CnA8rZU60I2CAo4HcZ+mqweuMSE+cPUh0zTIR+Hae1Eq/C6uYZjiZTpsqzdGTRvmOWfxWdlMTbfeCGY6xopi8QYcvBuu5qwNkjGgHh9iUBlrOTXcstpbRlyDOyhcn1HNjiqXMdElT8njvS0RXzXKSJR34KP83TecmcA+H/dwoTjOl5VOwilkStutfDUeTIqulBx21bhq78T52pDRxTBN3drQj2rId9arQkdapUSLVtg3wrSJPNq/VEQANrLMZcu8Ay4Q5vgY84HCeybgPOKGM4BvXz6yRzkE6bLX0fI44M6Wle4y6CRxFUiQykh31pk2aRZjD9lWOFNSo6uD9+olT0sWpLTx/qKPZFEg61vB686SE+M9qHFoGNnFjevUqZyjmOHHEauOlPNZp6UKOkWMNv5w0iN58XTkhusmODw5BxxixDNwguq18ng2iN6PQFNGZV8o867dZw1p+2cn4Lz4mmCZQyjAu4WuNn+LP251JInInx5CQpFY37ewsMPX4a55jSxJrWEQGY33+dis7tDMXOmplf6bjY3x1NY3jE+sNpUeJ++ebVt/IcDahLC6sk+G/ns4bz3nSF/O1ZD64nqlUzfGnk8fHsXyk0jHrOJpk0vEbWcMmspmk0vHb+BaRySYXYuE3NflGNo4Mzng7uIGh0110XzqwJ3kYfGT9/oIO/19L/Bm8l74F/OqdBZJ4Bu/VyXmulV2v8mxw4N8CDADXFYNPYlfknAAAAABJRU5ErkJggg=="/>
+
+        <h1>DOM</h1>
+
+    </header>
+
+<!-- ================== Slides ================== -->
+    <textarea id="source">
+
+
+class: center, middle
+
+.title[
+Front-end training
+# DOM
+]
+
+
+
+---
+
+
+
+# DOM, BOM and JS
+
+![Alt text](../assets/img/DOM1.png)
+
+---
+
+
+
+# What is the DOM?
+
+The DOM is a W3C (World Wide Web Consortium) standard.
+
+The DOM defines a standard for accessing documents:<br/>
+_"The W3C Document Object Model (DOM) is a platform and language-neutral interface that allows
+programs and scripts to dynamically access and update the content, structure, and style of a
+document."_
+
+The W3C DOM standard is separated into 3 different parts:
+- Core DOM - standard model for all document types
+- XML DOM - standard model for XML documents
+- HTML DOM - standard model for HTML documents
+
+
+  
+---
+
+
+
+# What is the HTML DOM?
+
+The HTML DOM is a standard object model and programming interface for HTML. It defines:
+- The HTML elements as objects
+- The properties of all HTML elements
+- The methods to access all HTML elements
+- The events for all HTML elements
+
+In other words: The HTML DOM is a standard for how to get, change, add, or delete HTML
+elements.
+
+
+---
+
+
+
+# DOM
+
+![Alt text](../assets/img/DOM2.png)
+
+
+---
+
+
+
+# DOM
+
+
+With the DOM, JavaScript gets all the power it needs to create dynamic HTML:
+- JavaScript can change all the HTML elements in the page
+- JavaScript can change all the HTML attributes in the page
+- JavaScript can change all the CSS styles in the page
+- JavaScript can remove existing HTML elements and attributes
+- JavaScript can add new HTML elements and attributes
+- JavaScript can react to all existing HTML events in the page
+- JavaScript can create new HTML events in the page
+
+
+
+---
+
+
+
+# DOM
+
+Reaching Elements in a Document
+
+<pre class="brush: jscript">
+//Retrieves the element with the given id as an object
+document.getElementById('id');
+//Retrieves all elements with the tag name tagname and stores them in an
+//array like
+document.getElementsByTagName('tagname');
+</pre>
+
+
+Reading Element Attributes, Node Values and Other Data
+
+<pre class="brush: jscript">  
+//Retrieves the value of the attribute with the name attribute
+node.getAttribute('attribute');
+//Sets the value of the attribute with the name attribute to value
+node.setAttribute('attribute', 'value');
+//Reads the type of the node (1 = element, 3 = text node)
+node.nodeType;
+//Reads the name of the node (either element name or #textNode)
+node.nodeName;
+//Reads or sets the value of the node (the text content in the case of
+//text nodes)
+node.nodeValue;
+</pre>
+
+
+---
+
+
+
+# DOM
+Navigating Between Nodes
+
+<pre class="brush: jscript">
+//Retrieves the previous sibling node and stores it as an object.
+node.previousSibling;
+//Retrieves the next sibling node and stores it as an object.
+node.nextSibling;
+//Retrieves all child nodes of the object and stores them in an list.
+//here are shortcuts for the first and last child node, named node.
+//firstChild and node.lastChild.
+node.childNodes;
+//Retrieves the node containing node.
+node.parentNode;
+</pre>
+
+
+
+---
+
+
+
+# DOM
+
+Creating New Nodes
+
+<pre class="brush: jscript">
+//Creates a new element node with the name element. You provide the name
+//as a string.
+document.createElement(element);
+//Creates a new text node with the node value of string.
+document.createTextNode(string);
+//Creates newNode as a copy (clone) of node. If bool is true, the clone
+//includes clones of all the child nodes of the original.
+newNode = node.cloneNode(bool);
+//Adds newNode as a new (last) child node to node.
+node.appendChild(newNode);
+//Inserts newNode as a new child node of node before oldNode.
+node.insertBefore(newNode,oldNode);
+//Removes the child oldNode from node.
+node.removeChild(oldNode);
+//Replaces the child node oldNode of node with newNode.
+node.replaceChild(newNode, oldNode);
+//Reads or writes the HTML content of the given element as a string—
+//including all child nodes with their attributes and
+//text content.
+element.innerHTML;
+</pre>
+
+---
+
+
+# Mouse Events
+
+***onclick*** <br/>The event occurs when the user clicks on an element
+
+***ondblclick*** <br/>The event occurs when the user double-clicks on an element
+
+***onmousedown*** <br/>The event occurs when a user presses a mouse button over an element
+
+***onmousemove*** <br/>The event occurs when the pointer is moving while it is over an element
+
+***onmouseover*** <br/>The event occurs when the pointer is moved onto an element
+
+***onmouseout*** <br/>The event occurs when a user moves the mouse pointer out of an element
+
+***onmouseup*** <br/>The event occurs when a user releases a mouse button over an element
+
+
+
+
+
+---
+
+
+# Keyboard Events
+
+***onkeydown***
+<br/>The event occurs when the user is pressing a key
+
+***onkeypress***
+<br/>The event occurs when the user presses a key
+
+***onkeyup***
+<br/>The event occurs when the user releases a key
+
+
+
+---
+
+
+# Handlers
+
+Inline
+
+``` html
+<div onclick='getACupcake(event)'>
+
+```
+addEventListener()
+
+<pre class="brush: jscript">
+document.getElementById('cupcakeButton').addEventListener('click', getACupcake);
+document.getElementById('cupcakeButton').attachEvent('onclick', getACupcake);
+//Note: Internet Explorer 9 adds support for addEventListener().
+</pre>
+Assigning to event handler properties
+
+<pre class="brush: jscript">
+document.getElementById('cupcakeButton').onclick = getACupcake;
+</pre>
+
+```
+
+
+---
+
+
+# Event object
+
+event.target is the original element the event happened to. However, Internet Explorer calls it event.
+srcElement. In fact, Chrome and Safari started setting both. You can do this for maximum
+compatibility:
+
+<pre class="brush: jscript">
+function getACupcake(event) {
+    var target = event.target || event.srcElement;
+    target.style.backgroundColor = '#F00'; // use it
+}
+</pre>
+
+
+---
+
+
+
+
+class: center, middle
+
+.title[
+## Thanks
+## The End
+]
+
+
+</textarea>
+<!-- ================== End of Slides ================== -->
+
+    <script src="../assets/js/remark-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">remark.create({highlightStyle: 'github'});</script>
+</body>
+</html>
